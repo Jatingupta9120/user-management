@@ -6,11 +6,12 @@ import {
   Delete,
   Param,
   Body,
+  Query,
   // UseGuards,
 } from '@nestjs/common';
 // import { AuthGuard } from '@nestjs/passport';
 import { UsersService } from './user.service';
-import { UserDto } from './dto/create-user.dto';
+import { UserDto, UserParamsDTO } from './dto/create-user.dto';
 import { UpdateAuthDto } from './dto/UpdateUser.dto';
 
 @Controller('user')
@@ -24,8 +25,8 @@ export class UserController {
   }
 
   @Get()
-  async findAll() {
-    return await this.userService.findAll();
+  async findAll(@Query() params: UserParamsDTO) {
+    return await this.userService.findAll(params);
   }
 
   @Get(':id')

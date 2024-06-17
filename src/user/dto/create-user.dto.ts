@@ -2,53 +2,55 @@ import {
   IsEmail,
   IsNotEmpty,
   IsOptional,
-  IsBoolean,
+  // IsBoolean,
   IsString,
   IsNumber,
-  Min,
-  Max,
+  // Min,
+  // Max,
   MinLength,
-  IsIn,
-  Validate,
-  MaxLength,
-  Matches,
+  // IsIn,
+  // Validate,/
+  // MaxLength,
+  // Matches,
+  // IsInt,
 } from 'class-validator';
 
-import { CustomEmailValidation } from './isemailValidation.dto';
-export class UserDto {
-  @IsOptional()
+// import { CustomEmailValidation } from './isemailValidation.dto';
+
+export class UserParamsDTO {
+  @IsNumber()
   @IsNotEmpty()
-  id?: string;
+  @IsOptional()
+  id: number;
+
+  @IsNotEmpty()
+  @IsString()
+  @IsOptional()
+  first_name: string;
 
   @IsString()
-  @IsNotEmpty()
-  first_name: string; //client requirement 1 required
+  @IsOptional()
+  last_name: string;
 
+  @IsEmail()
   @IsString()
   @IsOptional()
-  last_name?: string;
-
-  @IsEmail({}, { message: 'Invalid email format.' })
-  @IsNotEmpty({ message: 'Email must not be empty.' })
-  @Validate(CustomEmailValidation)
   email: string;
 
   @IsString()
   @IsOptional()
   phone_no: string;
 
-  @IsBoolean()
-  @IsNotEmpty({ message: 'isActive must not be empty.' })
-  isActive: boolean;
-
   @IsString()
-  @IsIn(['Male', 'Female'], { message: 'Role must be either admin or user.' })
+  @IsOptional()
   gender: string;
 
+  @IsNotEmpty()
+  @IsOptional()
+  isActive: boolean;
+
   @IsNumber()
-  @IsNotEmpty({ message: 'Age must not be empty.' })
-  @Min(1, { message: 'Age must be at least 1.' })
-  @Max(120, { message: 'Age must not exceed 120.' })
+  @IsOptional()
   age: number;
 
   @IsString()
@@ -56,15 +58,67 @@ export class UserDto {
   address: string;
 
   @IsString()
-  @IsNotEmpty({ message: 'Password must not be empty.' })
-  @MinLength(4, { message: 'Password must be at least 8 characters long.' })
-  @MaxLength(20)
-  @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
-    message: 'password too weak',
-  })
+  @IsOptional()
+  occupation: string;
+
+  @IsNotEmpty()
+  @IsString()
+  @IsOptional()
+  role: string;
+
+  @IsOptional()
+  limit: number;
+
+  @IsOptional()
+  offset: number;
+
+  @IsString()
+  @IsOptional()
+  sortBy: string;
+
+  @IsString()
+  @IsOptional()
+  order: string;
+}
+
+export class UserDto {
+  id: string;
+
+  @IsNotEmpty()
+  @IsString()
+  readonly first_name: string;
+
+  @IsString()
+  readonly lastName: string;
+
+  @IsEmail()
+  @IsString()
+  readonly email: string;
+
+  @IsString()
+  @MinLength(6)
   password: string;
 
-  @IsIn(['admin', 'user'], { message: 'Role must be either admin or user.' })
-  @IsNotEmpty({ message: 'Role must not be empty.' })
-  role: 'admin' | 'user';
+  @IsString()
+  readonly phone_no: string;
+
+  @IsString()
+  readonly gender: string;
+
+  @IsNotEmpty()
+  // @IsBoolean()
+  readonly isActive: boolean;
+
+  @IsNumber()
+  readonly age: number;
+
+  @IsString()
+  readonly address: string;
+
+  @IsString()
+  readonly occupation: string;
+
+  @IsNotEmpty()
+  @IsString()
+  readonly role: string;
 }

@@ -16,6 +16,7 @@ export class User extends Model<User> {
     defaultValue: UUIDV4,
   })
   id: string;
+
   @Column({
     type: DataType.STRING,
     allowNull: false,
@@ -64,10 +65,29 @@ export class User extends Model<User> {
     allowNull: false,
   })
   role: string;
+
   @Column({
     type: DataType.ENUM,
     values: ['Male', 'Female'],
     allowNull: false,
   })
   gender: string;
+
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: true,
+  })
+  age: number;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: true,
+  })
+  address: string; // Added address property
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: true,
+  })
+  occupation: string; // Added occupation property
 }

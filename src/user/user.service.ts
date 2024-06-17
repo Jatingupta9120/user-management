@@ -2,11 +2,12 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 
 import { User } from './entities/user.entity';
-import { UserDto } from './dto/create-user.dto';
+import { UserDto, UserParamsDTO } from './dto/create-user.dto';
+import { UserRepository } from './user.repository';
 
 @Injectable()
 export class UsersService {
-  constructor() {}
+  constructor(private readonly userRepository: UserRepository) {}
 
   // async create(userDto: UserDto): Promise<User> {
   //   try {
@@ -16,6 +17,36 @@ export class UsersService {
   //     throw new Error(`Failed to create user: ${error.message}`);
   //   }
   // }
+  async findAll(params: UserParamsDTO): Promise<UserDto[]> {
+    const {
+      first_name,
+      last_name,
+      email,
+      phone_no,
+      isActive,
+      limit,
+      offset,
+      gender,
+      age,
+      role,
+    } = params;
+
+    const queryOptions: any = {};
+
+    if (first_name) queryOptions.first_name = first_name;
+    if (last_name) queryOptions.last_name = last_name;
+    if (email) queryOptions.email = email;
+    if (phone_no) queryOptions.phone_no = phone_no;
+    if (isActive !== undefined) queryOptions.isActive = isActive;
+    if (gender) queryOptions.gender = gender;
+    if (age) queryOptions.age = age;
+    if (limit) queryOptions.limit = limit;
+    if (offset) queryOptions.offset = offset;
+    if (role) queryOptions.role = role;
+
+    const users = await this.userRepository.getAllUsers();
+    return users;
+  }
 
   async create(userDto: UserDto): Promise<User> {
     try {
@@ -33,16 +64,6 @@ export class UsersService {
     }
   }
 
-  async findAll(): Promise<User[]> {
-    try {
-      const users = await User.findAll<User>({
-        attributes: { exclude: ['password'] }, // Exclude password attribute
-      });
-      return users;
-    } catch (error) {
-      throw new Error(`Failed to find all users: ${error.message}`);
-    }
-  }
   async findOne(id: string): Promise<User> {
     // Find the user by ID in the database
     const user = await User.findByPk(id);
