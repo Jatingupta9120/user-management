@@ -1,4 +1,4 @@
-import { HttpStatus, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { User } from 'src/user/entities/user.entity';
@@ -43,31 +43,30 @@ export class AuthService {
       throw new Error(`Failed to login user: ${error.message}`);
     }
   }
-//    async changepassword(
-//     user: Partial<User>,
-//   ): Promise<{ user: Partial<User>}> {
-//     try {
-//       const user2 = await User.findOne({ where: { email: user.email } });
-//       if(!user2){
-//             throw new NotFoundException('Requested User is not found');
-        
-//         }
-//         const isvalid=await bcrypt.compare(
-//             user.password,
-//             currpassword
-//         )
+  //    async changepassword(
+  //     user: Partial<User>,
+  //   ): Promise<{ user: Partial<User>}> {
+  //     try {
+  //       const user2 = await User.findOne({ where: { email: user.email } });
+  //       if(!user2){
+  //             throw new NotFoundException('Requested User is not found');
 
-//         if(!isvalid){
-//             throw new UnauthorizedException('Invalid password'),
-//         }
-//         const hashedPassword=await bcrypt.hash(newpass,8);
-//         return await this.userService.updatepass(id,hashedPassword);
-        
-      
-//     } catch (error) {
-//       throw new Error(`Failed to reset pass: ${error.message}`);
-//     }
-//   }
+  //         }
+  //         const isvalid=await bcrypt.compare(
+  //             user.password,
+  //             currpassword
+  //         )
+
+  //         if(!isvalid){
+  //             throw new UnauthorizedException('Invalid password'),
+  //         }
+  //         const hashedPassword=await bcrypt.hash(newpass,8);
+  //         return await this.userService.updatepass(id,hashedPassword);
+
+  //     } catch (error) {
+  //       throw new Error(`Failed to reset pass: ${error.message}`);
+  //     }
+  //   }
 
   public async create(
     user: Partial<User>,
@@ -119,6 +118,4 @@ export class AuthService {
       throw new Error(`Failed to compare passwords: ${error.message}`);
     }
   }
-
 }
-  

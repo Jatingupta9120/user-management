@@ -20,8 +20,8 @@ export class UserRepository {
   ): Promise<UserDto[]> {
     const users = await User.findAll({
       where: queryOptions,
-      limit,
-      offset,
+      limit: limit,
+      offset: offset,
       order: [[sortBy, order]],
     });
 
@@ -49,7 +49,6 @@ export class UserRepository {
       throw new Error(`User with id ${user.id} not found.`);
     }
 
-    // Update user properties
     updatedUser.first_name = user.first_name;
     updatedUser.last_name = user.lastName;
     updatedUser.email = user.email;

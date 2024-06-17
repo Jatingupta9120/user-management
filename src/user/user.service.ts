@@ -44,7 +44,13 @@ export class UsersService {
     if (offset) queryOptions.offset = offset;
     if (role) queryOptions.role = role;
 
-    const users = await this.userRepository.getAllUsers();
+    const users = await this.userRepository.getAllUsersByParams(
+      queryOptions,
+      limit,
+      offset,
+      params.sortBy,
+      params.order,
+    );
     return users;
   }
 
